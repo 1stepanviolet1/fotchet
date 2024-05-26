@@ -9,9 +9,9 @@ config = _env.dotenv_values(".env")
 
 sep: str
 match config.get("input_var"):
-    case '1':
+    case 'сhess':
         sep = ' '
-    case '2':
+    case 'lichess':
         sep = '\n'
     case _:
         raise ValueError(f'This type of input data is not provided: {config.get("input_var")}')
