@@ -9,7 +9,7 @@ config = _env.dotenv_values(".env")
 
 sep: str
 match config.get("input_var"):
-    case 'сhess':
+    case 'chess':
         sep = ' '
     case 'lichess':
         sep = '\n'
