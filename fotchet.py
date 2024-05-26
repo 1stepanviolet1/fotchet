@@ -16,8 +16,8 @@ match config.get("input_var"):
     case _:
         raise ValueError(f'This type of input data is not provided: {config.get("input_var")}')
 
-data = Parser(os.path.join('data', config.get("1_filename"))).parse(sep=sep)
-
+data1 = Parser(os.path.join('data', config.get("1_filename"))).parse(sep=sep)
+data2 = Parser(os.path.join('data', config.get("2_filename"))).parse(sep=sep)
 
 table = OtchetTable()
 
@@ -26,7 +26,14 @@ table.make_intro(
     fio=config.get("yourself")
 )
 
-table.make_1_battle(data,
+table.make_1_battle(data1,
+    tour=config.get("tour"),
+    date=config.get("date"),
+    your_name=' '.join(config.get("yourself").split()[:2]),
+    opponent_name=config.get("opponent")
+)
+
+table.make_2_battle(data2,
     tour=config.get("tour"),
     date=config.get("date"),
     your_name=' '.join(config.get("yourself").split()[:2]),

@@ -17,12 +17,16 @@ class OtchetTable(Workbook):
     J3_L3 = '''Преподаватель'''
 
     A7_F7 = '''Шахматная партия'''
+    G7_L7 = A7_F7
 
     A8_F8 = '''Играна во "%s" туре %s'''
+    G8_L8 = A8_F8
 
     A9_F9 = '''Белые: %s'''
+    G9_L9 = A9_F9
 
     A10_F10 = '''Чёрные: %s'''
+    G10_L10 = A10_F10
 
     pttrn_battle_intro = '''№ Белые Чёрные'''
 
@@ -192,13 +196,11 @@ class OtchetTable(Workbook):
         _sheet["A10"].alignment = Alignment(horizontal="left", vertical="center")
         _sheet["A10"].value = self.A10_F10 % _opponent_name
     
-    def make_1_battle(self, data: dict[list[str]], *, tour: str, date: str, your_name: str, opponent_name: str):
-        self.init_A7_F7()
-        self.init_A8_F8(tour, date)
-        self.init_A9_F9(your_name)
-        self.init_A10_F10(opponent_name)
-
-        x_offset = 0
+    def make_battle(self, 
+                      data: dict[list[str]], 
+                      *, 
+                      offset: int):
+        x_offset = offset
         y_offset = 0
         _white_won: bool
 
@@ -276,3 +278,64 @@ class OtchetTable(Workbook):
         _cell = _sheet.cell(row=y, column=x)
         _cell.alignment = Alignment(horizontal="left", vertical="center")
         _cell.value = move
+
+    def make_1_battle(self, 
+                      data: dict[list[str]], 
+                      *, 
+                      tour: str, 
+                      date: str, 
+                      your_name: str, 
+                      opponent_name: str):
+        self.init_A7_F7()
+        self.init_A8_F8(tour, date)
+        self.init_A9_F9(your_name)
+        self.init_A10_F10(opponent_name)
+
+        self.make_battle(data, offset=0)
+
+    def init_G7_L7(self):
+        _sheet = self.active
+
+        _sheet.merge_cells("G7:L7")
+
+        _sheet["G7"].font = Font(bold=True)
+        _sheet["G7"].alignment = Alignment(horizontal="center", vertical="center")
+        _sheet["G7"].value = self.G7_L7
+    
+    def init_G8_L8(self, _tour: str, _date: str):
+        _sheet = self.active
+
+        _sheet.merge_cells("G8:L8")
+
+        _sheet["G8"].alignment = Alignment(horizontal="center", vertical="center")
+        _sheet["G8"].value = self.G8_L8 % (_tour, _date)
+    
+    def init_G9_L9(self, _player1: str):
+        _sheet = self.active
+
+        _sheet.merge_cells("G9:L9")
+
+        _sheet["G9"].alignment = Alignment(horizontal="left", vertical="center")
+        _sheet["G9"].value = self.G9_L9 % _player1
+    
+    def init_G10_L10(self, _player2: str):
+        _sheet = self.active
+
+        _sheet.merge_cells("G10:L10")
+
+        _sheet["G10"].alignment = Alignment(horizontal="left", vertical="center")
+        _sheet["G10"].value = self.G10_L10 % _player2
+    
+    def make_2_battle(self, 
+                      data: dict[list[str]], 
+                      *, 
+                      tour: str, 
+                      date: str, 
+                      your_name: str, 
+                      opponent_name: str):
+        self.init_G7_L7()
+        self.init_G8_L8(tour, date)
+        self.init_G9_L9(opponent_name)
+        self.init_G10_L10(your_name)
+
+        self.make_battle(data, offset=6) 
