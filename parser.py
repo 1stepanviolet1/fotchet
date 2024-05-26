@@ -1,22 +1,15 @@
 
 
 class Parser:
-    def __init__(self, filename="data.txt") -> None:
+    def __init__(self, filename: str) -> None:
         with open(filename, 'r', encoding='utf-8') as fp:
             self.data = fp.read()
     
-    def parse(self, *, var: int) -> list[str]:
-        match var:
-            case 1: return self.parse_1var(self.data)
-            case 2: return self.parse_2var(self.data)
-            case _: raise ValueError(f"var must be 1 or 2, not {var}")
+    def parse(self, *, sep: str) -> dict[list[str]]:
+        return self.parse_data(self.data, sep=sep)
     
     @staticmethod
-    def parse_1var(data: str) -> list[str]:
-        ...
-    
-    @staticmethod
-    def parse_2var(data: str) -> dict[list[str]]:
+    def parse_data(data: str, *, sep: str) -> dict[list[str]]:
         data = data.split('\n')
         res = {
             'white': [],
@@ -33,7 +26,5 @@ class Parser:
                     res['black'].append(v)
         
         return res
-        
-
 
 # type: ignore
