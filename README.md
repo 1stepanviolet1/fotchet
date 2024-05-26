@@ -32,4 +32,4 @@ P.S. Далее подразумевается, что <i>Первая парт�
 
 ## Связь с разработчиком
 - [VK](https://vk.com/stepanviolet)
-- [GMail](stepanviolet@gmail.com)
+- stepanviolet@gmail.com
