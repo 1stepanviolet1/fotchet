@@ -26,6 +26,8 @@ class OtchetTable(Workbook):
 
     pttrn_battle_intro = '''№ Белые Чёрные'''
 
+    pttrn_res = '''Результат:'''
+
     def __init__(self, iso_dates=False) -> None:
         super().__init__(iso_dates=iso_dates)
 
@@ -33,8 +35,9 @@ class OtchetTable(Workbook):
 
         _sheet.row_dimensions[1].height = 55
         _sheet.row_dimensions[3].height = 25
-
-        _sheet.column_dimensions['A'].width = 15
+        
+        for col in 'ADGJ':
+            _sheet.column_dimensions[col].width = 12
     
     def init_A1_L1(self):
         _sheet = self.active
@@ -195,13 +198,81 @@ class OtchetTable(Workbook):
         self.init_A9_F9(your_name)
         self.init_A10_F10(opponent_name)
 
-        self.create_battle_intro(col=1)
+        x_offset = 0
+        y_offset = 0
+        _white_won: bool
+
+        len_battle = len(data.get('white'))
+
+        if len_battle > 72:
+            print("Error: простите, но в партии больше 72 ходов")
+            exit(1)
         
+        if len_battle > len(data.get('black')):
+            _white_won = True
+        else:
+            _white_won = False
+
+        self.create_cols_of_moves(offset=x_offset)
+        self.create_battle_numbers(x_offset=x_offset)
+        self.create_battle_result(_white_won, offset=x_offset)
+        
+        for i in range(len_battle):
+            if i == 36:
+                x_offset += 3
+                y_offset -= 36
+                self.create_cols_of_moves(offset=x_offset)
+                self.create_battle_numbers(offset=36, x_offset=x_offset)
+
+            w_step = data['white'][i]
+            try:
+                b_step = data['black'][i]
+            except IndexError:
+                b_step = ''
+
+            self.create_battle_move((w_step, b_step), x_offset=x_offset, y_offset=i+y_offset)
     
-    def create_battle_intro(self, *, col: int):
+    def create_cols_of_moves(self, *, offset: int): # start: A11
         _sheet = self.active
 
-        for i in 0, 1, 2:
-            _cell = _sheet.cell(row=11, column=col+i)
+        for i in 1, 2, 3:
+            _cell = _sheet.cell(row=11, column=i+offset)
             _cell.alignment = Alignment(horizontal="center", vertical="center")
-            _cell.value = self.pttrn_battle_intro.split()[i]
+            _cell.value = self.pttrn_battle_intro.split()[i-1]
+    
+    def create_battle_result(self, _white_won, *, offset: int): # start: D48
+        if offset < 0:
+            raise ValueError(f"offset must be positive, not {offset}")
+    
+        _sheet = self.active
+
+        _cell = _sheet.cell(row=48, column=4+offset)
+        _cell.alignment = Alignment(horizontal="center", vertical="center")
+        _cell.value = self.pttrn_res
+
+        _cell = _sheet.cell(row=48, column=4+offset+1)
+        _cell.alignment = Alignment(horizontal="center", vertical="center")
+        _cell.value = int(_white_won)
+
+        _cell = _sheet.cell(row=48, column=4+offset+2)
+        _cell.alignment = Alignment(horizontal="center", vertical="center")
+        _cell.value = int(not _white_won)
+    
+    def create_battle_numbers(self, *, offset=0, x_offset): # start: A12
+        _sheet = self.active
+
+        for i in range(36):
+            _cell = _sheet.cell(row=12+i, column=1+x_offset)
+            _cell.alignment = Alignment(horizontal="center", vertical="center")
+            _cell.font = Font(bold=True)
+            _cell.value = i + 1 + offset
+    
+    def create_battle_move(self, moves, *, x_offset: int, y_offset: int): # start: B12
+        for i in 0, 1:
+            self.set_move(moves[i], x=2+x_offset+i, y=12+y_offset)
+    
+    def set_move(self, move: str, *, x, y):
+        _sheet = self.active
+        _cell = _sheet.cell(row=y, column=x)
+        _cell.alignment = Alignment(horizontal="left", vertical="center")
+        _cell.value = move
