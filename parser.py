@@ -10,7 +10,7 @@ class Parser:
     
     @staticmethod
     def parse_data(data: str, *, sep: str) -> dict[list[str]]:
-        data = data.split('\n')
+        data = data.split(sep)
         res = {
             'white': [],
             'black': []
