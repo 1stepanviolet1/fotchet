@@ -44,8 +44,16 @@ def main():
     config = _env.dotenv_values(".env")
 
     try:
-        data1 = Parser(os.path.join('data', config.get("1_filename"))).parse()
-        data2 = Parser(os.path.join('data', config.get("2_filename"))).parse()
+        data1 = Parser(
+            os.path.join('data', config.get("1_filename")), 
+            platform=config.get("input_var")
+        ).parse()
+
+        data2 = Parser(
+            os.path.join('data', config.get("2_filename")),
+            platform=config.get("input_var")
+        ).parse()
+        
     except Exception:
         print("Error: у вас проблема с получением/парсингом входных данных")
         exit(1)
