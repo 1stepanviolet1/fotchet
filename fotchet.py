@@ -5,6 +5,7 @@ from parser import Parser # type: ignore
 def make_otchettable( # recommended builder
     data1: dict[list[str]],
     data2: dict[list[str]],
+    *, 
     student_id: str,
     fio: str,
     tour: str,
@@ -15,7 +16,7 @@ def make_otchettable( # recommended builder
     table = OtchetTable()
 
     table.make_intro(
-        student_id=student_id,
+        student_id=student_id, 
         fio=fio
     )
 
@@ -53,14 +54,12 @@ def main():
             os.path.join('data', config.get("2_filename")),
             platform=config.get("input_var")
         ).parse()
-        
+
     except Exception:
         print("Error: у вас проблема с получением/парсингом входных данных")
         exit(1)
 
-    table = make_otchettable(
-        data1=data1,
-        data2=data2,
+    table = make_otchettable(data1, data2,
         student_id=config.get("your_id"),
         fio=config.get("yourself"),
         tour=config.get("tour"),
