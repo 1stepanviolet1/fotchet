@@ -1,12 +1,21 @@
 
 
 class Parser:
-    def __init__(self, filename: str) -> None:
+    def __init__(self, filename: str, *, platform: str) -> None:
+        self._sep: str
+        match platform:
+            case 'chess':
+                self._sep = ' '
+            case 'lichess':
+                self._sep = '\n'
+            case _:
+                raise ValueError(f'This type of input data is not provided: {platform}')
+
         with open(filename, 'r', encoding='utf-8') as fp:
             self.data = fp.read()
     
-    def parse(self, *, sep: str) -> dict[list[str]]:
-        return self.parse_data(self.data, sep=sep)
+    def parse(self) -> dict[list[str]]:
+        return self.parse_data(self.data, sep=self._sep)
     
     @staticmethod
     def parse_data(data: str, *, sep: str) -> dict[list[str]]:
