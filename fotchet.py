@@ -47,12 +47,14 @@ def main():
     try:
         data1 = Parser(
             os.path.join('data', config.get("1_filename")), 
-            platform=config.get("input_var")
+            platform=config.get("platform"),
+            translate_en_into_ru=config.get("translate_en_into_ru")
         ).parse()
 
         data2 = Parser(
             os.path.join('data', config.get("2_filename")),
-            platform=config.get("input_var")
+            platform=config.get("platform"),
+            translate_en_into_ru=config.get("translate_en_into_ru")
         ).parse()
 
     except Exception:
