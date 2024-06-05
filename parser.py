@@ -2,10 +2,10 @@ import re
 
 
 class Parser:
+    _sep: str
     _isPgn = False
 
-    def __init__(self, filename: str, *, platform: str) -> None:
-        self._sep: str
+    def __init__(self, filename: str, *, platform: str, translate_en_into_ru=None) -> None:
         match platform:
             case 'chess':
                 self._sep = ' '
@@ -13,15 +13,16 @@ class Parser:
                 self._sep = '\n'
             case _:
                 raise ValueError(f'This type of input data is not provided: {platform}')
+        
+        if translate_en_into_ru is None: self._translate_en_into_ru = "0"
+        else: self._translate_en_into_ru = translate_en_into_ru
 
-        if filename[-4:] == ".pgn":
-            self._isPgn = True
-            self._sep = ' '
+        self._isPgn = filename[-4:] == ".pgn"
 
         with open(filename, 'r', encoding='utf-8') as fp:
             self.data = fp.read()
 
-    def change_local(self):
+    def change_local(self) -> None:
         table = {
             "N": "К",
             "B": "C",
@@ -37,7 +38,8 @@ class Parser:
 
         self.data = "".join(result)
 
-    def parse_pgn(self):
+    def preprocess_data_from_pgn(self) -> None:
+        self._sep = ' '
         moves = []
 
         lines = self.data.split('\n')
@@ -51,12 +53,12 @@ class Parser:
 
         self.data = " ".join(moves)
 
-    def parse(self,  is_change_local) -> dict[list[str]]:
-        if is_change_local != "0":
+    def parse(self) -> dict[list[str]]:
+        if self._translate_en_into_ru != "0":
             self.change_local()
 
         if self._isPgn:
-            self.parse_pgn()
+            self.preprocess_data_from_pgn()
 
         return self.parse_data(self.data, sep=self._sep)
 
