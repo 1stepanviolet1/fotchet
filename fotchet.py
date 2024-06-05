@@ -48,12 +48,12 @@ def main():
         data1 = Parser(
             os.path.join('data', config.get("1_filename")), 
             platform=config.get("input_var")
-        ).parse()
+        ).parse(config.get("change_local"))
 
         data2 = Parser(
             os.path.join('data', config.get("2_filename")),
             platform=config.get("input_var")
-        ).parse()
+        ).parse(config.get("change_local"))
 
     except Exception:
         print("Error: у вас проблема с получением/парсингом входных данных")

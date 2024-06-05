@@ -1,8 +1,11 @@
 import re
+
+
 class Parser:
+    _isPgn = False
+
     def __init__(self, filename: str, *, platform: str) -> None:
         self._sep: str
-        self._isPgn: False
         match platform:
             case 'chess':
                 self._sep = ' '
@@ -48,8 +51,9 @@ class Parser:
 
         self.data = " ".join(moves)
 
-    def parse(self) -> dict[list[str]]:
-        self.change_local()
+    def parse(self,  is_change_local) -> dict[list[str]]:
+        if is_change_local != "0":
+            self.change_local()
 
         if self._isPgn:
             self.parse_pgn()
