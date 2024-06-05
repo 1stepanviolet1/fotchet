@@ -57,8 +57,9 @@ def main():
             translate_en_into_ru=config.get("translate_en_into_ru")
         ).parse()
 
-    except Exception:
+    except Exception as err:
         print("Error: у вас проблема с получением/парсингом входных данных")
+        raise err # TODO: delete
         exit(1)
 
     table = make_otchettable(data1, data2,
@@ -78,7 +79,9 @@ def main():
 
 
 if __name__ == "__main__":
-    try:
-        main()
-    except Exception as err:
-        print(f"Error: у вас возникла следующая ошибка:\n{err}\nСвяжитесь с разработчиком.")
+    # try:
+    #     main()
+    # except Exception as err:
+    #     print(f"Error: у вас возникла следующая ошибка:\n{err}\nСвяжитесь с разработчиком.")
+
+    main()
