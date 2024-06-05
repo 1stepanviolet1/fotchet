@@ -1,0 +1,19 @@
+[Event "Live Chess"]
+[Site "Chess.com"]
+[Date "2024.06.01"]
+[Round "-"]
+[White "Kiddmolotov"]
+[Black "Kosta-lap"]
+[Result "0-1"]
+[WhiteElo "769"]
+[BlackElo "772"]
+[TimeControl "600"]
+[EndTime "12:15:43 PDT"]
+[Termination "Kosta-lap поставил мат"]
+
+1. e4 e5 2. Nf3 Nc6 3. c3 d6 4. d4 Bg4 5. Bg5 f6 6. Be3 Qd7 7. Nbd2 O-O-O 8. Nc4
+Qe6 9. h3 Bxf3 10. Qxf3 Nge7 11. d5 Qf7 12. dxc6 Nxc6 13. Bxa7 Nxa7 14. g4 d5
+15. exd5 Rxd5 16. Rd1 Rc5 17. Qd3 Bd6 18. Qf5+ Kb8 19. b4 Rxc4 20. Bxc4 Qxc4 21.
+a3 Qxc3+ 22. Ke2 Qxa3 23. Qe4 Qxb4 24. Qe3 Qb5+ 25. Kf3 Bc5 26. Qa3 Bxa3 27. Rd2
+Qc6+ 28. Kg3 Qc3+ 29. f3 Qxd2 30. f4 Qe3+ 31. Kh4 Qxf4 32. Kh5 g6+ 33. Kh4 g5+
+34. Kh5 Qg3 35. Rd1 Qxh3# 0-1
