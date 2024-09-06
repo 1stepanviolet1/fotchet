@@ -1,5 +1,5 @@
 from otchettable import OtchetTable
-from parser import Parser # type: ignore
+from parser import Parser
 
 
 def make_otchettable( # recommended builder
@@ -59,7 +59,6 @@ def main():
 
     except Exception as err:
         print("Error: у вас проблема с получением/парсингом входных данных")
-        raise err # TODO: delete
         exit(1)
 
     table = make_otchettable(data1, data2,
@@ -79,9 +78,7 @@ def main():
 
 
 if __name__ == "__main__":
-    # try:
-    #     main()
-    # except Exception as err:
-    #     print(f"Error: у вас возникла следующая ошибка:\n{err}\nСвяжитесь с разработчиком.")
-
-    main()
+    try:
+        main()
+    except Exception as err:
+        print(f"Error: у вас возникла следующая ошибка:\n{err}\nСвяжитесь с разработчиком.")
