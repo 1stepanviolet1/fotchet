@@ -48,7 +48,7 @@ class Parser:
         moves = []
 
         lines = self.data.split('\n')
-        moves_re = re.compile(r'(\d+\.\s+\S+[\s+]?(?>\S+)?)')
+        moves_re = re.compile(r'(\d+\.\s+\S+[\s+]?(\S+)?)')
 
         for line in lines:
             moves_match = moves_re.findall(line)
@@ -56,7 +56,7 @@ class Parser:
                 for move in moves_match:
                     if '#' in move:
                         move = move.split('#')[0]
-                    moves.append(move.strip())
+                    moves.append(move[0].strip())
 
         self.data = " ".join(moves)
 
