@@ -55,7 +55,7 @@ cdef class Parser:
         cdef list moves = []
         cdef list lines = self.data.split('\n')
         
-        moves_re = re.compile(r'(\d+\.\s+\S+\s+\S+)')
+        moves_re = re.compile(r'(\d+\.\s+\S+[\s+]?(?>\S+)?)')
 
         cdef str line
         for line in lines:
@@ -65,6 +65,8 @@ cdef class Parser:
                 continue
 
             for move in moves_match:
+                if '#' in move:
+                    move = move.split('#')[0]
                 moves.append(move.strip())
 
         self.data = " ".join(moves)
