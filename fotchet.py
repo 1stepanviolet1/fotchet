@@ -57,9 +57,10 @@ def main():
             translate_en_into_ru=config.get("translate_en_into_ru")
         ).parse()
 
-    except Exception as err:
+    except Exception:
         print("Error: у вас проблема с получением/парсингом входных данных")
-        exit(1)
+        print()
+        raise err
 
     table = make_otchettable(data1, data2,
         student_id=config.get("your_id"),
@@ -81,4 +82,6 @@ if __name__ == "__main__":
     try:
         main()
     except Exception as err:
-        print(f"Error: у вас возникла следующая ошибка:\n{err}\nСвяжитесь с разработчиком.")
+        print(f"Error: у вас возникла следующая ошибка, cвяжитесь с разработчиком.")
+        print()
+        raise err
