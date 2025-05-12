@@ -71,8 +71,15 @@ def main():
         opponent_name=config.get("opponent")
     )
 
+    pattern_for_name = "Отчёт_Тк_ФВиС_%s_%s.xlsx"
+
     table.save(
-        os.path.join('data', config.get("output_filename"))
+        os.path.join(
+            'data', 
+            config.get("output_filename")           \
+                if config.get("output_filename")    \
+                else pattern_for_name % (config.get("your_id"), config.get("date"))
+        )
     )
 
     table.close()
